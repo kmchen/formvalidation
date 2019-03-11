@@ -1,7 +1,7 @@
 
 const nonEmpty = name => name.length > 0;
 const lessThan = (max) => name => name.length <= max;
-const isAlphaNumeric = name => /^[0-9a-z]*$/g.test(name);
+const isAlphaNumeric = name => /^[0-9a-zA-Z ]*$/g.test(name);
 
 export const validationRules = {
 	lastName: {
@@ -31,7 +31,19 @@ export const validationRules = {
   documentType: {
 		rules: [ nonEmpty, lessThan(2) ],
 		errMsg: 'Invalid document type'
-  }
+  },
+  documentNumber: {
+		rules: [ nonEmpty, lessThan(9), isAlphaNumeric ],
+		errMsg: 'This field should have no more than 9 alphanumeric characters'
+  },
+	expirationDate: {
+		rules: [ nonEmpty ],
+		errMsg: 'Please select the expiration date'
+	},
+	gender: {
+		rules: [ nonEmpty ],
+		errMsg: 'Please select the gender'
+	},
 };
 
 export class Validator {

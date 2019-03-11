@@ -1,23 +1,28 @@
-# How to run
-  - cd wattx/server && npm install && npm start
-  - cd wattx && npm install && npm start (http://localhost:8081)
+### How to use mrz generator
 
-# Problem
-  - Doesn't handle huge amount of data. A potential solution is pagination. 
-  - Type safe. Typescript is an alternative.
-  - Performance issue. Solution: e.g. Code spliting, profiling components with chrome dev tool 
+```sh
+$ npm install kmchenmrzgen
 
-# Technology choice
-  - React eco system: Reactjs, redux, thunk over saga
-  - Test: Jest for snapshot testing, Enzyme allows to travel and dom manipulation
-  - Web framework: express, Hapi is another alternative 
-  - Bundler tool: Webpack, a much simpler bundler tool than gulp
-  - Styling: bulma, bulma template, scss, style component
+import mrz from 'kmchenmrzgen';
+const user = {
+      firstName: 'firstName',
+      lastName: 'lastName',
+      nationality: 'Nationality',
+      issuingState: 'Coutry',
+      birthDate: 'birthday',
+      documentType: 'document type',
+      documentNumber: 'document number',
+      expirationDate: 'Expiration date',
+      gender: 'Male,
+      option1: '',
+      option2: '',
+    };
+mrz.generateMrzCode(user);
+```
 
-# What's next
-  - Dockerization
-  - Server side rendering for better user experience
-  - More unit test
-  - Replace dev-server with server framework such as express or hapi
-  - Scatter plot zoom in/out 
-  - Responseiveness has rooms for improvement
+### How to start Form validation frontend
+```
+$ git clone https://github.com/kmchen/formvalidation.git
+$ npm install
+$ npm start
+```

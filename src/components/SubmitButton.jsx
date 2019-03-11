@@ -8,7 +8,6 @@ const validate = new Validator(validationRules);
 export const validateForm = ({data, onSubmit}) => {
   const { fields } = data;
   const fieldNames = Object.keys(fields);
-  console.log('.......', fieldNames)
   const results = fieldNames.reduce((acc, currField) => {
     const validationResult = validate(fields[currField].value)[currField];
     acc[currField] = validationResult;
@@ -19,35 +18,40 @@ export const validateForm = ({data, onSubmit}) => {
     return acc && !Boolean(results[curr].errMsg) ; 
   }, true)
   if (!areInputsValid) {
-    const validationResult = Object.assign(data, {fields: results})
+    const validationResult = {...data};
+    validationResult.fields = results;
     onSubmit(validationResult);
   } else {
-    const userUtopia = {
-      firstName: 'ANNA MARIA',
-      lastName: 'ERIKSSON',
-      nationality: 'Utopia',
-      issuingState: 'Utopia',
-      birthDate: '740812',
-
-      documentType: 'AV',
-      documentNumber: 'D23145890',
-      expirationDate: '120415',
-      gender: 'female',
+    const user = {
+      firstName: results.firstName.value,
+      lastName: results.lastName.value,
+      nationality: results.nationality.value,
+      issuingState: results.issuingCountry.value,
+      birthDate: results.dateOfBirth.value.slice(2),
+      documentType: results.documentType.value,
+      documentNumber: results.documentNumber.value,
+      expirationDate: results.expirationDate.value.slice(2),
+      gender: results.gender.value,
       option1: '',
       option2: '',
     };
     try {
-      mrz.generateMrzCode(userUtopia)
-    } catch(err) {
-      //results.mrzGenerationErrMsg = err;
-      //console.log('...... mrz error', results)
+      const mrzCode = mrz.generateMrzCode(user);
+      console.log(mrzCode)
       const mrzResult = {
         fields: results,
-        mrzErrMsg: err.toString
+        mrzErrMsg: '',
+        mrzCode
+      };
+      onSubmit(mrzResult);
+    } catch(err) {
+      const mrzResult = {
+        fields: results,
+        mrzErrMsg: err.toString()
       };
       onSubmit(mrzResult);
     }
-    }
+  }
 }
 
 export const SubmitButton = (props) => {

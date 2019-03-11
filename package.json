@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --open --mode development",
-    "build": "webpack --mode development",
-    "test": "./node_modules/.bin/jest"
+    "build": "webpack --mode development"
   },
   "keywords": [],
   "author": "",

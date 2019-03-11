@@ -4,13 +4,14 @@ import mrz from 'kmchenmrzgen';
 import { Dropdown } from '../components/Dropdown';
 import { InputField } from '../components/InputField';
 import { SubmitButton, validateForm } from '../components/SubmitButton';
-import { BirthDayPicker } from '../components/BirthdayPicker';
+import { DayPicker } from '../components/DayPicker';
 
 class FormContainer extends Component {
   constructor() {
     super();
     this.state = {
       mrzErrMsg: '',
+      mrzCode: '',
       fields: {
         firstName: { value: '', errMsg: ''},
         lastName: { value: '', errMsg: ''},
@@ -18,13 +19,10 @@ class FormContainer extends Component {
         nationality: { value: '', errMsg: ''},
         passportNumber: { value: '', errMsg: ''},
         dateOfBirth: { value: '', errMsg: ''},
-
         documentType: { value: '', errMsg: ''},
-        //documentNumber: { value: '', errMsg: ''},
-        //expirationDate: { value: '', errMsg: ''},
-        //gender: { value: '', errMsg: ''},
-        //option1: { value: '', errMsg: ''},
-        //option2: { value: '', errMsg: ''}
+        documentNumber: { value: '', errMsg: ''},
+        expirationDate: { value: '', errMsg: ''},
+        gender: { value: '', errMsg: ''}
       }
     };
   }
@@ -43,7 +41,7 @@ class FormContainer extends Component {
 
   submitForm = (event) => {
     event.preventDefault()
-    validateForm(this.state, this.updateNewState)
+    validateForm({data: this.state, onSubmit: this.updateNewState})
   }
 
   render() {
@@ -69,9 +67,10 @@ class FormContainer extends Component {
                   onChange={this.updateField('passportNumber')}
                   data={this.state.fields.passportNumber}
                 />
-                <BirthDayPicker
+                <DayPicker
                   data={this.state.fields.dateOfBirth}
                   title='Date of Birth *'
+                  maxDate={new Date()}
                   onChange={this.updateField('dateOfBirth')}
                 />
                 <Dropdown
@@ -93,8 +92,28 @@ class FormContainer extends Component {
                   onChange={this.updateField('documentType')}
                   data={this.state.fields.documentType}
                 />
+                <InputField
+                  title='Document Number *'
+                  onChange={this.updateField('documentNumber')}
+                  data={this.state.fields.documentNumber}
+                />
+                <DayPicker
+                  data={this.state.fields.expirationDate}
+                  title='Passport expiration date *'
+                  onChange={this.updateField('expirationDate')}
+                />
+                <Dropdown
+                  title='Gender *'
+                  onChange={this.updateField('gender')}
+                  data={this.state.fields.gender}
+                  options={{Male: 0, Female: 1}}
+                  defaultValue="Please choose your gender"
+                 />
                  <SubmitButton data={this.state} onSubmit={this.updateNewState}/>
-                 <div>{this.state.mrzGenerationErrMsg}</div>
+                 <div>{this.state.mrzErrMsg}</div>
+                 <div>{this.state.mrzCode[0]}</div>
+                 <div>{this.state.mrzCode[1]}</div>
+                 <div>{this.state.mrzCode[2]}</div>
               </div>
             </div>
           </div>
